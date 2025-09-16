@@ -40,3 +40,8 @@
 #  username: username
 #  password: password
 #  queue: queue
+# Server which runs your custom actions.
+# https://rasa.com/docs/rasa/custom-actions
+
+action_endpoint:
+  url: "https://your-actions-server.onrender.com/webhook"
