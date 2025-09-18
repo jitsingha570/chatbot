@@ -12,7 +12,7 @@ COPY . /app
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# (Optional) Train model – better to do locally & commit models/
+# Optional: Train model inside container (usually better to do locally and commit models/)
 # RUN rasa train
 
 # Switch back to default non-root user
