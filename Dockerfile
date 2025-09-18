@@ -12,8 +12,8 @@ COPY . /app
 RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Train model (optional — can also be done locally and commit models/)
-RUN rasa train
+# (Optional) Train model – better to do locally & commit models/
+# RUN rasa train
 
 # Switch back to default non-root user
 USER 1001
@@ -22,4 +22,4 @@ USER 1001
 EXPOSE 5005
 
 # Run Rasa server
-CMD ["run", "--enable-api", "--port", "5005", "--cors", "*"]
+CMD ["rasa", "run", "--enable-api", "--port", "5005", "--cors", "*", "--debug"]
