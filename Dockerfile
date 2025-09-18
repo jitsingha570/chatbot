@@ -1,14 +1,18 @@
-FROM rasa/rasa:3.6.18-full
+FROM rasa/rasa:3.6.16
+
+WORKDIR /app
 
 # Copy project files
 COPY . /app
-WORKDIR /app
 
-# Train model
+# Install action server dependencies (if needed)
+RUN pip install -r requirements.txt
+
+# Train model (optional — or do this locally and commit models/)
 RUN rasa train
 
-# Expose Rasa server port
+# Expose port
 EXPOSE 5005
 
-# Run rasa server with API enabled
-CMD ["run", "--enable-api", "--cors", "*", "--port", "5005"]
+# Run Rasa server
+CMD ["run", "--enable-api", "--port", "5005", "--cors", "*"]
