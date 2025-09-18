@@ -1,15 +1,22 @@
 FROM rasa/rasa:3.6.16
 
+# Switch to root to install dependencies
+USER root
+
 WORKDIR /app
 
 # Copy project files
 COPY . /app
 
-# Install action server dependencies (if needed)
-RUN pip install -r requirements.txt
+# Upgrade pip and install action server dependencies
+RUN pip install --upgrade pip
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Train model (optional — or do this locally and commit models/)
+# Train model (optional — can also be done locally and commit models/)
 RUN rasa train
+
+# Switch back to default non-root user
+USER 1001
 
 # Expose port
 EXPOSE 5005
