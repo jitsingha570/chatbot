@@ -1,0 +1,13 @@
+FROM rasa/rasa-sdk:3.6.2
+
+WORKDIR /app
+
+# Copy actions
+COPY actions /app/actions
+
+# Install extra requirements if needed
+COPY requirements.txt /app/
+RUN pip install -r requirements.txt || true
+
+EXPOSE 5055
+CMD ["start", "--actions", "actions"]
