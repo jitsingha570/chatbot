@@ -1,25 +1,23 @@
-FROM rasa/rasa:3.6.16
-
-# Switch to root to install dependencies
-USER root
+FROM rasa/rasa:3.6.0-full
 
 WORKDIR /app
 
-# Copy project files
-COPY . /app
-
-# Upgrade pip and install action server dependencies
-RUN pip install --upgrade pip
+# Copy requirements first for better caching
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Optional: Train model inside container (usually better to do locally and commit models/)
-# RUN rasa train
+# Copy all project files
+COPY . .
 
-# Switch back to default non-root user
-USER 1001
+# Train the model
+RUN rasa train
 
-# Expose port
+# Expose the port Render expects
 EXPOSE 5005
 
-# Run Rasa server
-CMD ["rasa", "run", "--enable-api", "--port", "5005", "--cors", "*", "--debug"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:5005 || exit 1
+
+# Start Rasa
+CMD ["run", "--enable-api", "--cors", "*", "--debug", "--port", "5005"]

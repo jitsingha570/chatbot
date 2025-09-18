@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: rasa-chatbot
+    env: docker
+    docker:
+      dockerfile: Dockerfile
+    plan: free
+    envVars:
+      - key: PORT
+        value: 5005
+      - key: RASA_ENVIRONMENT
+        value: production
+    numInstances: 1
+    healthCheckPath: /
+    autoDeploy: true
