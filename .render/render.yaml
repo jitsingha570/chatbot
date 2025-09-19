@@ -7,12 +7,6 @@ services:
     envVars:
       - key: PORT
         value: 5055
-      - key: TWILIO_ACCOUNT_SID
-        value: your_twilio_account_sid_here
-      - key: TWILIO_AUTH_TOKEN
-        value: your_twilio_auth_token_here
-      - key: TWILIO_PHONE_NUMBER
-        value: your_twilio_whatsapp_number_here
     numInstances: 1
     healthCheckPath: /health
     autoDeploy: true
