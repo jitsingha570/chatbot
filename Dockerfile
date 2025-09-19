@@ -1,17 +1,20 @@
-FROM python:3.9-slim
+FROM ubuntu:22.04
 
 WORKDIR /app
 
-# Install system dependencies
+# Install Python and dependencies
 RUN apt-get update && apt-get install -y \
-    gcc \
+    python3.9 \
+    python3-pip \
+    python3-venv \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements
 COPY requirements.txt ./
 
 # Install packages
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Copy all files
 COPY . .
