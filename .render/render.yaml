@@ -1,15 +1,30 @@
 services:
+  # Action Server
   - type: web
-    name: rasa-chatbot
+    name: rasa-actions
     env: docker
     docker:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.action
+    plan: free
+    envVars:
+      - key: PORT
+        value: 5055
+    numInstances: 1
+    healthCheckPath: /health
+    autoDeploy: true
+
+  # Rasa Server
+  - type: web
+    name: rasa-core
+    env: docker
+    docker:
+      dockerfile: Dockerfile.rasa
     plan: free
     envVars:
       - key: PORT
         value: 5005
-      - key: RASA_ENVIRONMENT
-        value: production
+      - key: ACTION_ENDPOINT
+        value: https://rasa-actions.onrender.com/webhook
     numInstances: 1
     healthCheckPath: /
     autoDeploy: true
