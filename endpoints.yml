@@ -1,14 +1,7 @@
-# Action server endpoint
+# No action endpoint needed - actions run in the same process
 action_endpoint:
-  url: "https://your-action-server.onrender.com/webhook"
+  url: "http://localhost:5055/webhook"
 
-# Use in-memory tracker for simplicity
-# tracker_store:
-#   type: InMemoryTrackerStore
-
-# event_broker:
-#   type: pika
-#   url: localhost
-#   username: guest
-#   password: guest
-#   queue: rasa
+# Use in-memory storage (simple)
+tracker_store:
+  type: InMemoryTrackerStore

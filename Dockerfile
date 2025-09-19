@@ -1,14 +1,21 @@
-FROM python:3.9-slim
+FROM rasa/rasa:3.6.0-full
 
 WORKDIR /app
 
-# Install dependencies
-RUN pip install --no-cache-dir rasa-sdk==3.6.0 twilio==8.0.0
+# Copy requirements
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy actions code
-COPY actions/ ./
+# Install Twilio
+RUN pip install --no-cache-dir twilio==8.0.0
 
-EXPOSE 5055
+# Copy all files
+COPY . .
 
-# Start action server - FIXED COMMAND
-CMD ["python", "-m", "rasa_sdk", "start", "--actions", "actions", "--port", "5055"]
+# Train the model
+RUN rasa train
+
+EXPOSE 5005
+
+# Start Rasa with actions included
+CMD ["run", "--enable-api", "--cors", "*", "--port", "5005"]

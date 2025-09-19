@@ -1,12 +1,18 @@
 services:
   - type: web
-    name: rasa-actions
+    name: rasa-twilio-bot
     env: docker
     dockerfilePath: Dockerfile
     plan: free
     envVars:
       - key: PORT
-        value: 5055
+        value: 5005
+      - key: TWILIO_ACCOUNT_SID
+        value: your_account_sid_here
+      - key: TWILIO_AUTH_TOKEN
+        value: your_auth_token_here
+      - key: TWILIO_PHONE_NUMBER
+        value: your_twilio_whatsapp_number_here
     numInstances: 1
-    healthCheckPath: /health
+    healthCheckPath: /
     autoDeploy: true
